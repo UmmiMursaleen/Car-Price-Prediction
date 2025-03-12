@@ -1,6 +1,10 @@
 import streamlit as st
 import pickle
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+from sklearn.preprocessing import OneHotEncoder
 
 # Load trained pipeline
 pipe = pickle.load(open("LinearRegressionModel.pkl", "rb"))
