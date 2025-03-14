@@ -65,7 +65,7 @@ if st.button("Predict Price"):
         try:
             # Predict price
             predicted_price = abs(pipe.predict(input_data)[0])
-            st.success(f"Estimated Price: PKR {predicted_price:,.2f}")
+            st.success(f"Estimated Price: $ {predicted_price:,.2f}")
 
         except Exception as e:
             st.error(f"Prediction failed: {str(e)}")
