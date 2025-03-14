@@ -14,13 +14,37 @@ try:
 except FileNotFoundError:
     encoder = None  # If encoder is in the pipeline, we don't need a separate file
 
-st.title("Car Price Prediction App")
+st.title("Car Price Prediction App🚕")
 
 # Input fields
-name = st.text_input("Car Name (Brand Model)")
-company = st.text_input("Company Name")
+
+company_models = {
+    "Hyundai": ["Hyundai Santro Xing", "Hyundai Grand i10", "Hyundai Eon", "Hyundai Elite i20", "Hyundai Creta"],
+    "Mahindra": ["Mahindra Jeep CL550", "Mahindra Scorpio SLE", "Mahindra XUV500 W8", "Mahindra Thar CRDe"],
+    "Ford": ["Ford EcoSport Titanium", "Ford Figo", "Ford EcoSport Ambiente", "Ford Endeavor 4x4"],
+    "Maruti": ["Maruti Suzuki Alto", "Maruti Suzuki Swift", "Maruti Suzuki Wagon R", "Maruti Suzuki Baleno"],
+    "Toyota": ["Toyota Corolla Altis", "Toyota Fortuner", "Toyota Etios", "Toyota Innova 2.5","Toyota Fortuner 3.0","Toyota Corolla H2"],
+    "Honda": ["Honda City", "Honda Amaze", "Honda Jazz", "Honda Accord",""],
+    "Audi": ["Audi A8", "Audi Q7", "Audi A4 1.8", "Audi A6 2.0"],
+    "BMW": ["BMW 3 Series", "BMW 5 Series", "BMW X1 xDrive20d"],
+    "Mercedes": ["Mercedes Benz C", "Mercedes Benz A", "Mercedes Benz GLA"],
+    "Volkswagen": ["Volkswagen Polo", "Volkswagen Jetta", "Volkswagen Passat Diesel"],
+    "Jeep": ["Jeep Wrangler Unlimited", "Jeep Compass", "Jeep Grand Cherokee"]
+}
+
+# Company selection
+company = st.selectbox("Brand Name", list(company_models.keys()))
+
+# Dynamically update car models based on selected company
+models = company_models.get(company, [])  # Get models for selected brand
+# name = st.selectbox("Car Name (Brand Model)", models)
+
+
+
+name = st.selectbox("Car Name (Brand Model)",models)
+
 year = st.number_input("Year of Manufacture", min_value=1990, max_value=2025, step=1)
-fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "CNG", "LPG", "Electric"])
+fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "LPG"])
 kms_driven = st.number_input("Kilometers Driven", min_value=0, step=1000)
 
 if st.button("Predict Price"):
@@ -40,7 +64,7 @@ if st.button("Predict Price"):
     else:
         try:
             # Predict price
-            predicted_price = pipe.predict(input_data)[0]
+            predicted_price = abs(pipe.predict(input_data)[0])
             st.success(f"Estimated Price: PKR {predicted_price:,.2f}")
 
         except Exception as e:
